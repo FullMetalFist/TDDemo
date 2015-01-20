@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "TableViewController.h"
 
 @interface ViewController ()
+
+@property (strong, nonatomic) TableViewController *tableViewController;
 
 @end
 
@@ -17,11 +20,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.tableViewController = [[TableViewController alloc] initWithNibName:nil bundle:nil];
+    
+    TWTRLogInButton *loginButton = [TWTRLogInButton buttonWithLogInCompletion:^(TWTRSession *sessionBlock, NSError *error) {
+        // tweet
+        if (sessionBlock) {
+            NSLog(@"signed in as %@", [sessionBlock userName]);
+            [self.navigationController pushViewController:self.tableViewController animated:YES];
+        } else {
+            NSLog(@"error %@", [error localizedDescription]);
+        }
+    }];
+    loginButton.center = self.view.center;
+    [self.view addSubview:loginButton];
 }
 
 @end

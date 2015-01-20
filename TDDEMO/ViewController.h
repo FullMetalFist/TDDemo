@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import <QuartzCore/QuartzCore.h>
+#import <TwitterKit/TwitterKit.h>
+
 @interface ViewController : UIViewController
 
+@property (strong, nonatomic) TWTRSession *session;
 
 @end
 
