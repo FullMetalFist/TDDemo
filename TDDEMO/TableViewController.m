@@ -44,15 +44,18 @@ static NSString *const TweetTableReuseIdentifier = @"TwitterCell";
     
     // are tweets loading here??
     __weak typeof(self) weakSelf = self;
-    [[[Twitter sharedInstance] APIClient] loadTweetsWithIDs:tweetIDs completion:^(NSArray *tweets, NSError *error) {
-        if (tweets) {
-            typeof(self) strongSelf = weakSelf;
-            self.tweets = tweets;
-            [self.tableView reloadData];
-        } else {
-            NSLog(@"Failed to load tweet %@", error.localizedDescription);
-        }
-    }];
+    [[[Twitter sharedInstance] APIClient]
+     loadTweetsWithIDs:tweetIDs
+     completion:^(NSArray *tweets, NSError *error) {
+         if (tweets) {
+             typeof(self) strongSelf = weakSelf;
+             strongSelf.tweets = tweets;
+             [strongSelf.tableView reloadData];
+         } else {
+             NSLog(@"Failed to load tweet: %@",
+                   [error localizedDescription]);
+         }
+     }];
     
     [self rotatingViews];
 }
